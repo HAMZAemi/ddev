@@ -19,7 +19,13 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                  retry(3) {
+                    bat 'echo "Deploying"'
+                }
+                timeout(time: 3, unit: 'SECONDS') {
+                    bat 'ping -n 10 127.0.0.1'
+                }
+            
             }
         }
     }
